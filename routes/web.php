@@ -19,5 +19,7 @@ Route::get('/', function () {
 Route::get('/halo', function () {
     return view('halo');
 });
-
+Route::get('/halo', function () {
+    return view('halo');
+});
 
