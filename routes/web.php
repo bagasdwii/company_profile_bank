@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/about', [HomeController::class, 'about']);
+Route::get('/service', [HomeController::class, 'service']);
+Route::get('/team', [HomeController::class, 'team']);
+Route::get('/contact', [HomeController::class, 'contact']);
 
 //Auth
 Route::get('/login', [AuthController::class, 'login'])->name('login');

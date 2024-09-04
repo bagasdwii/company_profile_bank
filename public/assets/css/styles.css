@@ -1,0 +1,89 @@
+/* Menambahkan margin otomatis untuk judul dan styling tambahan pada navbar */
+.navbar {
+    padding: 0 2rem; /* Padding kiri dan kanan */
+}
+
+.navbar-brand {
+    margin-right: auto; /* Memastikan brand berada di sebelah kiri */
+    font-size: 1.75rem; /* Ukuran font yang lebih besar */
+    font-weight: 600; /* Menjadikan teks lebih tebal */
+}
+
+.nav-link {
+    font-size: 1.125rem; /* Ukuran font link */
+    margin-right: 1rem; /* Jarak antar link */
+}
+
+.nav-link.active {
+    font-weight: 600; /* Menjadikan link aktif lebih tebal */
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .nav-link {
+    font-weight: 600;
+}
+
+p, a, li {
+    font-weight: 400;
+}
+
+.navbar {
+    background-color: #f8f9fa;
+}
+
+.nav-link {
+    font-size: 18px;
+    margin-right: 15px;
+    color: #343a40 !important;
+}
+
+.nav-link:hover {
+    color: #fafafa !important;
+}
+
+.section-title {
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+}
+html, body {
+    height: 100%;
+    margin: 0;
+}
+.main-content {
+    flex: 1;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif !important;
+}
+footer {
+    margin-top: auto;
+}
+
+/* Efek zoom pada gambar saat hover */
+.img-hover-zoom {
+    transition: transform 0.3s ease-in-out; /* Menambahkan efek transisi */
+    border-radius: 10px; /* Mengatur sudut gambar menjadi lebih melengkung */
+}
+
+.img-hover-zoom:hover {
+    transform: scale(1.1); /* Membesarkan gambar sebesar 10% saat hover */
+}
+.team-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-img {
+    width: 150px; /* Atur lebar gambar */
+    height: 150px; /* Atur tinggi gambar agar sama dengan lebar */
+    object-fit: cover; /* Pastikan gambar sesuai dengan kontainer tanpa merusak proporsi */
+    transition: transform 0.3s ease-in-out; /* Menambahkan efek transisi */
+}
+
+.team-img:hover {
+    transform: scale(1.1); /* Membesarkan gambar sebesar 10% saat hover */
+}
