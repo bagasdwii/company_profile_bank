@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,13 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/halo', function () {
-    return view('halo');
-});
-Route::get('/halo', function () {
-    return view('halo');
-});
+
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'authlogin']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+// Route::get('/halo', function () {
+//     return view('halo');
+// });
+// Route::get('/halo', function () {
+//     return view('halo');
+// });
 
