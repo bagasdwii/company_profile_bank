@@ -25,4 +25,11 @@ class AuthController extends Controller
             'loginError'=>'Email atau Password Salah'
         ]);
     }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/login');
+        
+    }
+
 }
