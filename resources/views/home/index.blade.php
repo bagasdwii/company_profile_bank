@@ -7,14 +7,97 @@
 <!-- Main Content -->
 <div class="main-content">
     <!-- Hero Section -->
-    <section class="hero-section text-white text-center bg-primary py-5">
-        <div class="container">
-            <h1>Welcome to Bank XYZ</h1>
-            <p class="lead">Your trusted financial partner for personal and business banking.</p>
-            <a href="services.html" class="btn btn-light btn-lg">Explore Our Services</a>
+    {{-- <section class="hero-section text-white text-center bg-success pb-5">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="assets/home/gambar/1.jpg" class="d-block w-100" alt="Banking Welcome" style="height: 500px; object-fit: cover;">
+                    <div class="carousel-caption">
+                        <h1 class="text-white display-6 display-md-4">Welcome to Bank XYZ</h1>
+                        <p class="lead text-white fs-6 fs-md-5">Your trusted financial partner for personal and business banking.</p>
+                        <a href="services.html" class="btn btn-light btn-lg">Explore Our Services</a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="assets/home/gambar/2.jpg" class="d-block w-100" alt="Banking Growth" style="height: 500px; object-fit: cover;">
+                    <div class="carousel-caption">
+                        <h1 class="text-white display-6 display-md-4">Grow Your Wealth with Us</h1>
+                        <p class="lead text-white fs-6 fs-md-5">We offer financial solutions that ensure your steady growth.</p>
+                        <a href="services.html" class="btn btn-light btn-lg">See Our Services</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="assets/home/gambar/3.jpg" class="d-block w-100" alt="Banking Support" style="height: 500px; object-fit: cover;">
+                    <div class="carousel-caption">
+                        <h1 class="text-white display-6 display-md-4">24/7 Support</h1>
+                        <p class="lead text-white fs-6 fs-md-5">We are always here to assist you, anytime, anywhere.</p>
+                        <a href="contact.html" class="btn btn-light btn-lg">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls for previous/next -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section> --}}
+    <section class="hero-section text-white text-center bg-success pb-5">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="assets/home/gambar/1.jpg" class="d-block w-100" alt="Banking Welcome" style="object-fit: cover; height: 400px;">
+                    <div class="carousel-caption">
+                        <h1 class="text-white display-6 display-md-4">Welcome to Bank XYZ</h1>
+                        <p class="lead text-white fs-6 fs-md-5">Your trusted financial partner for personal and business banking.</p>
+                        <a href="services.html" class="btn btn-light btn-lg">Explore Our Services</a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="assets/home/gambar/2.jpg" class="d-block w-100" alt="Banking Growth" style="object-fit: cover; height: 400px;">
+                    <div class="carousel-caption">
+                        <h1 class="text-white display-6 display-md-4">Grow Your Wealth with Us</h1>
+                        <p class="lead text-white fs-6 fs-md-5">We offer financial solutions that ensure your steady growth.</p>
+                        <a href="services.html" class="btn btn-light btn-lg">See Our Services</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="assets/home/gambar/3.jpg" class="d-block w-100" alt="Banking Support" style="object-fit: cover; height: 400px;">
+                    <div class="carousel-caption">
+                        <h1 class="text-white display-6 display-md-4">24/7 Support</h1>
+                        <p class="lead text-white fs-6 fs-md-5">We are always here to assist you, anytime, anywhere.</p>
+                        <a href="contact.html" class="btn btn-light btn-lg">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls for previous/next -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </section>
-
+    
     <!-- Additional Content -->
     <section class="py-5">
         <div class="container">
