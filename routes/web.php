@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBeritaController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
+use App\Http\Controllers\DataPenghargaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::resource('/data_slider',DataSliderController::class)->middleware('auth');
 Route::resource('/data_produk',DataProdukController::class)->middleware('auth');
 Route::resource('/data_berita',DataBeritaController::class)->parameters(['data_berita' => 'data_berita'])->middleware('auth'); //parameter untuk penamaan nya data berita
+Route::resource('/data_penghargaan',DataPenghargaanController::class)->middleware('auth');
 
 
 
