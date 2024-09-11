@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataSlider;
+use Carbon\Carbon;
+use App\Models\DataBerita;
 use Illuminate\Http\Request;
 
-class DataSliderController extends Controller
+class DataBeritaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,12 +15,10 @@ class DataSliderController extends Controller
      */
     public function index()
     {
-        // Mengambil semua data slider yang diurutkan berdasarkan updated_at secara descending (terbaru dulu)
-        $sliders = DataSlider::orderBy('updated_at', 'desc')->get();
+        $beritas = DataBerita::orderBy('updated_at', 'desc')->get();
 
-        return view('sliders.index', compact('sliders'));
+        return view('beritas.index', compact('beritas'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -28,8 +27,8 @@ class DataSliderController extends Controller
      */
     public function create()
     {
-        return view('sliders.create');
-        
+        return view('beritas.create');
+
     }
 
     /**
@@ -38,35 +37,41 @@ class DataSliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'judul' => 'required',
             'keterangan' => 'required',
-            'gambar' => 'required|image'
+            'gambar' => 'required|image',
+            'tanggal' => 'required|date', // Tambahkan validasi untuk tanggal
         ]);
-    
+
         $input = $request->all();
+        $input['user_id'] = auth()->user()->id;
+        // Mendapatkan nama hari dari tanggal
+        $tanggal = Carbon::parse($request->input('tanggal'));
+        $input['hari'] = $tanggal->translatedFormat('l'); // Mendapatkan nama hari dalam bahasa lokal
+
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_slider/';
+            $lokasiFile = 'assets/data_berita/';
             // Gunakan timestamp untuk nama file agar unik
             $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
             $gambar->move($lokasiFile, $gambarNama);
             $input['gambar'] = $gambarNama;
         }
-    
-        DataSlider::create($input);
-    
-        return redirect('/data_slider')->with('message', 'Data berhasil ditambahkan');
+
+        DataBerita::create($input);
+
+        return redirect('/data_berita')->with('message', 'Data berita berhasil ditambahkan');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DataSlider  $dataSlider
+     * @param  \App\Models\DataBerita  $dataBerita
      * @return \Illuminate\Http\Response
      */
-    public function show(DataSlider $dataSlider)
+    public function show(DataBerita $dataBerita)
     {
         //
     }
@@ -74,60 +79,69 @@ class DataSliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DataSlider  $dataSlider
+     * @param  \App\Models\DataBerita  $dataBerita
      * @return \Illuminate\Http\Response
      */
-    public function edit(DataSlider $dataSlider)
+    public function edit(DataBerita $dataBerita)
     {
-        // dd($dataSlider);
-        return view('sliders.edit', compact('dataSlider'));
+        return view('beritas.edit', compact('dataBerita'));
+        
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DataSlider  $dataSlider
+     * @param  \App\Models\DataBerita  $dataBerita
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DataSlider $dataSlider)
+    public function update(Request $request, DataBerita $dataBerita)
     {
         $request->validate([
             'judul' => 'required',
             'keterangan' => 'required',
-            'gambar' => 'image'
+            'gambar' => 'image',
+            'tanggal' => 'required|date', // Tambahkan validasi untuk tanggal
         ]);
-    
+
         $input = $request->all();
+        $input['user_id'] = auth()->user()->id;
+        // Mendapatkan nama hari dari tanggal yang diupdate
+        $tanggal = Carbon::parse($request->input('tanggal'));
+        $input['hari'] = $tanggal->translatedFormat('l'); // Mendapatkan nama hari
+
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_slider/';
-            $gambarLamaPath = public_path($lokasiFile . $dataSlider->gambar);
+            $lokasiFile = 'assets/data_berita/';
+            
+            // Hapus gambar lama jika ada
+            $gambarLamaPath = public_path($lokasiFile . $dataBerita->gambar);
             if (file_exists($gambarLamaPath)) {
                 unlink($gambarLamaPath);
             }
+
             // Gunakan timestamp untuk nama file agar unik
             $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
             $gambar->move($lokasiFile, $gambarNama);
             $input['gambar'] = $gambarNama;
-        } else{
+        } else {
             unset($input['gambar']);
         }
-    
-        $dataSlider->update($input);
-    
-        return redirect('/data_slider')->with('message', 'Data berhasil diedit');
+
+        $dataBerita->update($input);
+
+        return redirect('/data_berita')->with('message', 'Data berita berhasil diedit dan gambar lama dihapus');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DataSlider  $dataSlider
+     * @param  \App\Models\DataBerita  $dataBerita
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DataSlider $dataSlider)
+    public function destroy(DataBerita $dataBerita)
     {
         // Lokasi file gambar
-        $gambarPath = public_path('assets/data_slider/' . $dataSlider->gambar);
+        $gambarPath = public_path('assets/data_berita/' . $dataBerita->gambar);
 
         // Cek apakah file gambar tersebut ada di folder
         if (file_exists($gambarPath)) {
@@ -136,10 +150,9 @@ class DataSliderController extends Controller
         }
 
         // Hapus data dari database
-        $dataSlider->delete();
+        $dataBerita->delete();
 
         // Redirect dengan pesan sukses
-        return redirect('/data_slider')->with('message', 'Data berhasil dihapus beserta gambarnya');
+        return redirect('/data_berita')->with('message', 'Data berhasil dihapus beserta gambarnya');
     }
-
 }

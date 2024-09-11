@@ -119,9 +119,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="/data_berita" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Active Page</p>
+                                            <p>Data Berita</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

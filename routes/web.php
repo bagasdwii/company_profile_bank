@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataBeritaController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
 
@@ -34,6 +35,8 @@ Route::post('/login', [AuthController::class, 'authlogin']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 Route::resource('/data_slider',DataSliderController::class)->middleware('auth');
 Route::resource('/data_produk',DataProdukController::class)->middleware('auth');
+Route::resource('/data_berita',DataBeritaController::class)->parameters(['data_berita' => 'data_berita'])->middleware('auth'); //parameter untuk penamaan nya data berita
+
 
 
 
