@@ -13,11 +13,19 @@ class DataBeritaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $beritas = DataBerita::orderBy('updated_at', 'desc')->get();
+            // Mendapatkan kata kunci pencarian dari request
+            $search = $request->input('search');
 
-        return view('beritas.index', compact('beritas'));
+            // Query untuk mengambil data produk berdasarkan pencarian dan pagination
+            $beritas = DataBerita::when($search, function ($query, $search) {
+                return $query->where('judul', 'like', "%{$search}%")
+                            ->orWhere('keterangan', 'like', "%{$search}%");
+            })->orderBy('updated_at', 'desc')->paginate(10);
+    
+            // Mengirimkan data produk dan kata kunci pencarian ke view
+            return view('beritas.index', compact('beritas', 'search'));
     }
 
     /**

@@ -9,6 +9,15 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+
+        <!-- Form Pencarian -->
+        <form method="GET" action="{{ url('/data_penghargaan') }}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Cari penghargaan..." value="{{ $search }}">
+                <button type="submit" class="btn btn-secondary">Cari</button>
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-bordered border-light table-hover table-striped">
                 <thead>
@@ -21,14 +30,14 @@
                 </thead>
                 <tbody>
                     @php
-                        $i = 1;
+                        $i = ($penghargaans->currentPage() - 1) * $penghargaans->perPage() + 1;
                     @endphp
                     @foreach ($penghargaans as $penghargaan)
                     <tr>
                         <td class="text-center">{{ $i++ }}</td>
                         <td class="text-truncate" style="max-width: 150px;">{{ $penghargaan->judul }}</td>
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_penghargaan/{{ $penghargaan->gambar }}" alt="" style="max-width: 500px;">
+                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_penghargaan/{{ $penghargaan->gambar }}" alt="" style="max-width: 300px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $penghargaan->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -66,9 +75,27 @@
                             </div>
                         </td>
                     </tr>
+
+                    <!-- Modal Gambar penghargaan -->
+                    <div class="modal fade" id="modalGambar{{ $penghargaan->id }}" tabindex="-1" aria-labelledby="modalGambarLabel{{ $penghargaan->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalGambarLabel{{ $penghargaan->id }}">Gambar Penghargaan</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="img-fluid" src="assets/data_penghargaan/{{ $penghargaan->gambar }}" alt="Gambar penghargaan">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Pagination Links -->
+            {{ $penghargaans->links('pagination::bootstrap-4') }}
         </div>
     </div>
 @endsection

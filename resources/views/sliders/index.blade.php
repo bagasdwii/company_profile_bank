@@ -9,6 +9,15 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+
+        <!-- Form Pencarian -->
+        <form method="GET" action="{{ url('/data_slider') }}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Cari slider..." value="{{ $search }}">
+                <button type="submit" class="btn btn-secondary">Cari</button>
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-bordered border-light table-hover table-striped">
                 <thead>
@@ -22,7 +31,7 @@
                 </thead>
                 <tbody>
                     @php
-                        $i = 1;
+                        $i = ($sliders->currentPage() - 1) * $sliders->perPage() + 1;
                     @endphp
                     @foreach ($sliders as $slider)
                     <tr>
@@ -30,7 +39,7 @@
                         <td class="text-truncate" style="max-width: 150px;">{{ $slider->judul }}</td>
                         <td class="text-truncate" style="max-width: 300px;">{{ $slider->keterangan }}</td>
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_slider/{{ $slider->gambar }}" alt="" style="max-width: 90px;">
+                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_slider/{{ $slider->gambar }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $slider->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -68,9 +77,27 @@
                             </div>
                         </td>
                     </tr>
+
+                    <!-- Modal Gambar slider -->
+                    <div class="modal fade" id="modalGambar{{ $slider->id }}" tabindex="-1" aria-labelledby="modalGambarLabel{{ $slider->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalGambarLabel{{ $slider->id }}">Gambar Slider</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="img-fluid" src="assets/data_slider/{{ $slider->gambar }}" alt="Gambar slider">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Pagination Links -->
+            {{ $sliders->links('pagination::bootstrap-4') }}
         </div>
     </div>
 @endsection

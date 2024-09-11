@@ -12,11 +12,18 @@ class DataPenghargaanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $penghargaans = DataPenghargaan::orderBy('updated_at', 'desc')->get();
+       // Mendapatkan kata kunci pencarian dari request
+       $search = $request->input('search');
 
-        return view('penghargaans.index', compact('penghargaans'));
+       // Query untuk mengambil data produk berdasarkan pencarian dan pagination
+       $penghargaans = DataPenghargaan::when($search, function ($query, $search) {
+           return $query->where('judul', 'like', "%{$search}%");
+       })->orderBy('updated_at', 'desc')->paginate(10);
+
+       // Mengirimkan data produk dan kata kunci pencarian ke view
+       return view('penghargaans.index', compact('penghargaans', 'search'));
     }
 
     /**
