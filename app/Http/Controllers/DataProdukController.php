@@ -12,13 +12,22 @@ class DataProdukController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+ 
+    public function index(Request $request)
     {
-        // Mengambil semua data slider yang diurutkan berdasarkan updated_at secara descending (terbaru dulu)
-        $produks = DataProduk::orderBy('updated_at', 'desc')->get();
+        // Mendapatkan kata kunci pencarian dari request
+        $search = $request->input('search');
 
-        return view('produks.index', compact('produks'));
+        // Query untuk mengambil data produk berdasarkan pencarian dan pagination
+        $produks = DataProduk::when($search, function ($query, $search) {
+            return $query->where('judul', 'like', "%{$search}%")
+                        ->orWhere('keterangan', 'like', "%{$search}%");
+        })->orderBy('updated_at', 'desc')->paginate(10);
+
+        // Mengirimkan data produk dan kata kunci pencarian ke view
+        return view('produks.index', compact('produks', 'search'));
     }
+
 
 
     /**

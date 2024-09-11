@@ -9,6 +9,15 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+
+        <!-- Form Pencarian -->
+        <form method="GET" action="{{ url('/data_berita') }}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Cari berita..." value="{{ $search }}">
+                <button type="submit" class="btn btn-secondary">Cari</button>
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-bordered border-light table-hover table-striped">
                 <thead>
@@ -23,7 +32,7 @@
                 </thead>
                 <tbody>
                     @php
-                        $i = 1;
+                        $i = ($beritas->currentPage() - 1) * $beritas->perPage() + 1;
                     @endphp
                     @foreach ($beritas as $berita)
                     <tr>
@@ -32,7 +41,7 @@
                         <td class="text-truncate" style="max-width: 300px;">{{ $berita->keterangan }}</td>
                         <td class="text-truncate" style="max-width: 100px;">{{ $berita->hari }}, {{ $berita->tanggal }}</td>
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_berita/{{ $berita->gambar }}" alt="" style="max-width: 90px;">
+                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_berita/{{ $berita->gambar }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $berita->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -70,9 +79,28 @@
                             </div>
                         </td>
                     </tr>
+
+                    <!-- Modal Gambar berita -->
+                    <div class="modal fade" id="modalGambar{{ $berita->id }}" tabindex="-1" aria-labelledby="modalGambarLabel{{ $berita->id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalGambarLabel{{ $berita->id }}">Gambar Berita</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img class="img-fluid" src="assets/data_berita/{{ $berita->gambar }}" alt="Gambar berita">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Pagination Links -->
+            {{ $beritas->links('pagination::bootstrap-4') }}
         </div>
     </div>
 @endsection
+

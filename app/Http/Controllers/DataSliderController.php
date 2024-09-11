@@ -12,12 +12,19 @@ class DataSliderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Mengambil semua data slider yang diurutkan berdasarkan updated_at secara descending (terbaru dulu)
-        $sliders = DataSlider::orderBy('updated_at', 'desc')->get();
+          // Mendapatkan kata kunci pencarian dari request
+          $search = $request->input('search');
 
-        return view('sliders.index', compact('sliders'));
+          // Query untuk mengambil data produk berdasarkan pencarian dan pagination
+          $sliders = DataSlider::when($search, function ($query, $search) {
+              return $query->where('judul', 'like', "%{$search}%")
+                          ->orWhere('keterangan', 'like', "%{$search}%");
+          })->orderBy('updated_at', 'desc')->paginate(10);
+  
+          // Mengirimkan data produk dan kata kunci pencarian ke view
+          return view('sliders.index', compact('sliders', 'search'));
     }
 
 
