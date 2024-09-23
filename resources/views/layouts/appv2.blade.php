@@ -99,8 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item menu-open">
-                            {{-- <a href="#" class="nav-link active"> --}}
-                                <a href="#" class="nav-link ">
+                                <a href="#" class="nav-link {{ Request::is('data_slider', 'data_produk', 'data_berita', 'data_penghargaan', 'data_tabungan') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
                                         Master Data
@@ -109,33 +108,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                            <a href="/data_slider" class="nav-link">
+                                            <a href="/data_slider" class="nav-link {{ Request::is('data_slider') ? 'active' : '' }}">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>Data Slider</p>
                                             </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/data_produk" class="nav-link">
+                                        <a href="/data_produk" class="nav-link {{ Request::is('data_produk') ? 'active' : '' }}">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Data Produk</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/data_berita" class="nav-link">
+                                        <a href="/data_berita" class="nav-link {{ Request::is('data_berita') ? 'active' : '' }}">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Data Berita</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/data_penghargaan" class="nav-link">
+                                        <a href="/data_penghargaan" class="nav-link {{ Request::is('data_penghargaan') ? 'active' : '' }}">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Data Penghargaan</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="/data_tabungan" class="nav-link {{ Request::is('data_tabungan') ? 'active' : '' }}k">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Active Page</p>
+                                            <p>Data Tabungan</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

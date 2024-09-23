@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBeritaController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
+use App\Http\Controllers\DataTabunganController;
 use App\Http\Controllers\DataPenghargaanController;
 
 /*
@@ -26,9 +27,10 @@ Route::get('/about', [HomeController::class, 'about']);
 Route::get('/service', [HomeController::class, 'service']);
 Route::get('/team', [HomeController::class, 'team']);
 Route::get('/contact', [HomeController::class, 'contact']);
+Route::get('/profile', [HomeController::class, 'profile']);
 
 //Auth
-Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');;
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'authlogin']);
 
@@ -38,6 +40,7 @@ Route::resource('/data_slider',DataSliderController::class)->middleware('auth');
 Route::resource('/data_produk',DataProdukController::class)->middleware('auth');
 Route::resource('/data_berita',DataBeritaController::class)->parameters(['data_berita' => 'data_berita'])->middleware('auth'); //parameter untuk penamaan nya data berita
 Route::resource('/data_penghargaan',DataPenghargaanController::class)->middleware('auth');
+Route::resource('/data_tabungan',DataTabunganController::class)->middleware('auth');
 
 
 
