@@ -22,4 +22,7 @@ class HomeController extends Controller
     public function contact() {
         return view('home.contactus');
     }
+    public function profile() {
+        return view('home.profile');
+    }
 }
