@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DataPpobController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBeritaController;
 use App\Http\Controllers\DataKreditController;
@@ -47,6 +48,7 @@ Route::resource('/data_tabungan',DataTabunganController::class)->middleware('aut
 Route::resource('/data_profile',DataProfileController::class)->middleware('auth');
 Route::resource('/data_deposito',DataDepositoController::class)->middleware('auth');
 Route::resource('/data_kredit',DataKreditController::class)->middleware('auth');
+Route::resource('/data_ppob',DataPpobController::class)->middleware('auth');
 
 
 
