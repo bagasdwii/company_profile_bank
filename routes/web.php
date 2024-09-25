@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataBeritaController;
+use App\Http\Controllers\DataKreditController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
 use App\Http\Controllers\DataProfileController;
@@ -45,6 +46,7 @@ Route::resource('/data_penghargaan',DataPenghargaanController::class)->middlewar
 Route::resource('/data_tabungan',DataTabunganController::class)->middleware('auth');
 Route::resource('/data_profile',DataProfileController::class)->middleware('auth');
 Route::resource('/data_deposito',DataDepositoController::class)->middleware('auth');
+Route::resource('/data_kredit',DataKreditController::class)->middleware('auth');
 
 
 
