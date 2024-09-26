@@ -9,6 +9,7 @@ use App\Http\Controllers\DataBeritaController;
 use App\Http\Controllers\DataKreditController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
+use App\Http\Controllers\DataEdukasiController;
 use App\Http\Controllers\DataProfileController;
 use App\Http\Controllers\DataDepositoController;
 use App\Http\Controllers\DataTabunganController;
@@ -49,6 +50,7 @@ Route::resource('/data_profile',DataProfileController::class)->middleware('auth'
 Route::resource('/data_deposito',DataDepositoController::class)->middleware('auth');
 Route::resource('/data_kredit',DataKreditController::class)->middleware('auth');
 Route::resource('/data_ppob',DataPpobController::class)->middleware('auth');
+Route::resource('/data_edukasi',DataEdukasiController::class)->middleware('auth');
 
 
 
