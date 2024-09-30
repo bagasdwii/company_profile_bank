@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\DataEdukasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataEdukasiController extends Controller
 {
@@ -61,11 +62,9 @@ class DataEdukasiController extends Controller
         $input['hari'] = $tanggal->translatedFormat('l'); // Mendapatkan nama hari dalam bahasa lokal
 
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_edukasi/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_edukasi
+            $gambarPath = $gambar->store('data_edukasi', 'public');
+            $input['gambar'] = $gambarPath;
         }
 
         DataEdukasi::create($input);
@@ -119,18 +118,14 @@ class DataEdukasiController extends Controller
         $input['hari'] = $tanggal->translatedFormat('l'); // Mendapatkan nama hari
 
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_edukasi/';
-            
             // Hapus gambar lama jika ada
-            $gambarLamaPath = public_path($lokasiFile . $dataEdukasi->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            if ($dataEdukasi->gambar) {
+                Storage::disk('public')->delete($dataEdukasi->gambar);
             }
 
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar baru ke storage/app/public/data_edukasi
+            $gambarPath = $gambar->store('data_edukasi', 'public');
+            $input['gambar'] = $gambarPath;
         } else {
             unset($input['gambar']);
         }
@@ -148,13 +143,9 @@ class DataEdukasiController extends Controller
      */
     public function destroy(DataEdukasi $dataEdukasi)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_edukasi/' . $dataEdukasi->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+         // Hapus file gambar dari disk storage jika ada
+        if ($dataEdukasi->gambar) {
+            Storage::disk('public')->delete($dataEdukasi->gambar);
         }
 
         // Hapus data dari database

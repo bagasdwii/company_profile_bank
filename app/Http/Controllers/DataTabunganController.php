@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataTabungan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataTabunganController extends Controller
 {
@@ -55,12 +56,11 @@ class DataTabunganController extends Controller
         ]);
     
         $input = $request->all();
+        
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_tabungan/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_tabungan
+            $gambarPath = $gambar->store('data_tabungan', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataTabungan::create($input);
@@ -111,16 +111,15 @@ class DataTabunganController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_tabungan/';
-            $gambarLamaPath = public_path($lokasiFile . $dataTabungan->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataTabungan->gambar) {
+                Storage::disk('public')->delete($dataTabungan->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_tabungan
+            $gambarPath = $gambar->store('data_tabungan', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
     
@@ -137,19 +136,14 @@ class DataTabunganController extends Controller
      */
     public function destroy(DataTabungan $dataTabungan)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_tabungan/' . $dataTabungan->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+       // Hapus file gambar dari disk storage jika ada
+        if ($dataTabungan->gambar) {
+            Storage::disk('public')->delete($dataTabungan->gambar);
         }
 
         // Hapus data dari database
         $dataTabungan->delete();
 
-        // Redirect dengan pesan sukses
         return redirect('/data_tabungan')->with('message', 'Data berhasil dihapus beserta gambarnya');
     }
 

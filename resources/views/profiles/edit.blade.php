@@ -21,9 +21,9 @@
                         <input type="text" id="nama_button" class="form-control" name="nama_button" placeholder="Nama Button"  value="{{ $dataProfile->nama_button }}">
                     </form-group><form-group>
                         <label for="nomor_button">Nomor Button</label>
-                        <input type="text" id="nomor_button" class="form-control" name="nomor_button" placeholder="Nomor Button"  value="{{ $dataProfile->nomor_button }}">
+                        <input type="number" id="nomor_button" class="form-control" name="nomor_button" placeholder="Nomor Button"  value="{{ $dataProfile->nomor_button }}">
                     </form-group>
-                    <img class="img-fluid rounded mx-auto d-block my-3" src="/assets/data_profile/{{ $dataProfile->gambar }}" alt="">
+                    <img class="img-fluid rounded mx-auto d-block my-3" src="{{ Storage::url($dataProfile->gambar) }}" alt="">
                     <form-group>
                         <label for="gambar">Gambar</label>
                         <input type="file" id="gambar" class="form-control" name="gambar"  >

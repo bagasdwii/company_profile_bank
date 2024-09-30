@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataDeposito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataDepositoController extends Controller
 {
@@ -56,11 +57,9 @@ class DataDepositoController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_deposito/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_deposito
+            $gambarPath = $gambar->store('data_deposito', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataDeposito::create($input);
@@ -111,16 +110,15 @@ class DataDepositoController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_deposito/';
-            $gambarLamaPath = public_path($lokasiFile . $dataDeposito->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataDeposito->gambar) {
+                Storage::disk('public')->delete($dataDeposito->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_deposito
+            $gambarPath = $gambar->store('data_deposito', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
     
@@ -137,13 +135,9 @@ class DataDepositoController extends Controller
      */
     public function destroy(DataDeposito $dataDeposito)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_deposito/' . $dataDeposito->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+        // Hapus file gambar dari disk storage jika ada
+        if ($dataDeposito->gambar) {
+            Storage::disk('public')->delete($dataDeposito->gambar);
         }
 
         // Hapus data dari database

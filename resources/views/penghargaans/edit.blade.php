@@ -12,7 +12,7 @@
                         <label for="judul">Judul</label>
                         <input type="text" id="judul" class="form-control" name="judul" placeholder="Judul"  value="{{ $dataPenghargaan->judul }}">
                     </form-group>
-                    <img class="img-fluid rounded mx-auto d-block my-3" src="/assets/data_penghargaan/{{ $dataPenghargaan->gambar }}" alt="">
+                    <img class="img-fluid rounded mx-auto d-block my-3" src="{{ Storage::url($dataPenghargaan->gambar) }}" alt="">
                     <form-group>
                         <label for="gambar">Gambar</label>
                         <input type="file" id="gambar" class="form-control" name="gambar"  >

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataPpob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataPpobController extends Controller
 {
@@ -56,11 +57,9 @@ class DataPpobController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_ppob/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_ppob
+            $gambarPath = $gambar->store('data_ppob', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataPpob::create($input);
@@ -111,16 +110,15 @@ class DataPpobController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_ppob/';
-            $gambarLamaPath = public_path($lokasiFile . $dataPpob->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataPpob->gambar) {
+                Storage::disk('public')->delete($dataPpob->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_ppob
+            $gambarPath = $gambar->store('data_ppob', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
     
@@ -137,14 +135,11 @@ class DataPpobController extends Controller
      */
     public function destroy(DataPpob $dataPpob)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_ppob/' . $dataPpob->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+        // Hapus file gambar dari disk storage jika ada
+        if ($dataPpob->gambar) {
+            Storage::disk('public')->delete($dataPpob->gambar);
         }
+
 
         // Hapus data dari database
         $dataPpob->delete();

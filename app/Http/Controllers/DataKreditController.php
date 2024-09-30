@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataKredit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataKreditController extends Controller
 {
@@ -55,12 +56,11 @@ class DataKreditController extends Controller
         ]);
     
         $input = $request->all();
+        
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_kredit/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_kredit
+            $gambarPath = $gambar->store('data_kredit', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataKredit::create($input);
@@ -111,16 +111,15 @@ class DataKreditController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_kredit/';
-            $gambarLamaPath = public_path($lokasiFile . $dataKredit->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataKredit->gambar) {
+                Storage::disk('public')->delete($dataKredit->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_kredit
+            $gambarPath = $gambar->store('data_kredit', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
     
@@ -137,14 +136,11 @@ class DataKreditController extends Controller
      */
     public function destroy(DataKredit $dataKredit)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_kredit/' . $dataKredit->gambar);
+       // Hapus file gambar dari disk storage jika ada
+       if ($dataKredit->gambar) {
+        Storage::disk('public')->delete($dataKredit->gambar);
+    }
 
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
-        }
 
         // Hapus data dari database
         $dataKredit->delete();

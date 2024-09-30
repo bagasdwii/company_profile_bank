@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataKantorCabang;
 use Illuminate\Http\Request;
+use App\Models\DataKantorCabang;
+use Illuminate\Support\Facades\Storage;
 
 class DataKantorCabangController extends Controller
 {
@@ -51,20 +52,20 @@ class DataKantorCabangController extends Controller
             'telepon' => 'required',
             'gambar' => 'required|image'
         ]);
-    
+
         $input = $request->all();
+        
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_kantor_cabang/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_kantor_cabang
+            $gambarPath = $gambar->store('data_kantor_cabang', 'public');
+            $input['gambar'] = $gambarPath;
         }
-    
+
         DataKantorCabang::create($input);
-    
+
         return redirect('/data_kantor_cabang')->with('message', 'Data berhasil ditambahkan');
     }
+
 
     /**
      * Display the specified resource.
@@ -105,25 +106,27 @@ class DataKantorCabangController extends Controller
             'telepon' => 'required',
             'gambar' => 'image'
         ]);
+
         $input = $request->all();
+        
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_kantor_cabang/';
-            $gambarLamaPath = public_path($lokasiFile . $dataKantorCabang->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataKantorCabang->gambar) {
+                Storage::disk('public')->delete($dataKantorCabang->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_kantor_cabang
+            $gambarPath = $gambar->store('data_kantor_cabang', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
-    
+
         $dataKantorCabang->update($input);
-    
+
         return redirect('/data_kantor_cabang')->with('message', 'Data berhasil diedit');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -133,19 +136,15 @@ class DataKantorCabangController extends Controller
      */
     public function destroy(DataKantorCabang $dataKantorCabang)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_kantor_cabang/' . $dataKantorCabang->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+        // Hapus file gambar dari disk storage jika ada
+        if ($dataKantorCabang->gambar) {
+            Storage::disk('public')->delete($dataKantorCabang->gambar);
         }
 
         // Hapus data dari database
         $dataKantorCabang->delete();
 
-        // Redirect dengan pesan sukses
         return redirect('/data_kantor_cabang')->with('message', 'Data berhasil dihapus beserta gambarnya');
     }
+
 }

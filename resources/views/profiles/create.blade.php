@@ -20,7 +20,7 @@
                         <input type="text" id="nama_button" class="form-control" name="nama_button" placeholder="Nama Button" required>
                     </form-group><form-group>
                         <label for="nomor_button">Nomor Button</label>
-                        <input type="text" id="nomor_button" class="form-control" name="nomor_button" placeholder="Nomor Button" required>
+                        <input type="number" id="nomor_button" class="form-control" name="nomor_button" placeholder="Nomor Button" required>
                     </form-group>
                     <form-group>
                         <label for="gambar">Gambar</label>

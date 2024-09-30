@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\DataBerita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataBeritaController extends Controller
 {
@@ -61,11 +62,9 @@ class DataBeritaController extends Controller
         $input['hari'] = $tanggal->translatedFormat('l'); // Mendapatkan nama hari dalam bahasa lokal
 
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_berita/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_berita
+            $gambarPath = $gambar->store('data_berita', 'public');
+            $input['gambar'] = $gambarPath;
         }
 
         DataBerita::create($input);
@@ -119,22 +118,17 @@ class DataBeritaController extends Controller
         $input['hari'] = $tanggal->translatedFormat('l'); // Mendapatkan nama hari
 
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_berita/';
-            
             // Hapus gambar lama jika ada
-            $gambarLamaPath = public_path($lokasiFile . $dataBerita->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            if ($dataBerita->gambar) {
+                Storage::disk('public')->delete($dataBerita->gambar);
             }
 
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar baru ke storage/app/public/data_berita
+            $gambarPath = $gambar->store('data_berita', 'public');
+            $input['gambar'] = $gambarPath;
         } else {
             unset($input['gambar']);
         }
-
         $dataBerita->update($input);
 
         return redirect('/data_berita')->with('message', 'Data berita berhasil diedit dan gambar lama dihapus');
@@ -148,13 +142,9 @@ class DataBeritaController extends Controller
      */
     public function destroy(DataBerita $dataBerita)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_berita/' . $dataBerita->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+         // Hapus file gambar dari disk storage jika ada
+         if ($dataBerita->gambar) {
+            Storage::disk('public')->delete($dataBerita->gambar);
         }
 
         // Hapus data dari database

@@ -21,9 +21,9 @@
                         <input type="text" id="nama_button" class="form-control" name="nama_button" placeholder="Nama Button"  value="{{ $dataTabungan->nama_button }}">
                     </form-group><form-group>
                         <label for="nomor_button">Nomor Button</label>
-                        <input type="text" id="nomor_button" class="form-control" name="nomor_button" placeholder="Nomor Button"  value="{{ $dataTabungan->nomor_button }}">
+                        <input type="number" id="nomor_button" class="form-control" name="nomor_button" placeholder="Nomor Button"  value="{{ $dataTabungan->nomor_button }}">
                     </form-group>
-                    <img class="img-fluid rounded mx-auto d-block my-3" src="/assets/data_tabungan/{{ $dataTabungan->gambar }}" alt="">
+                    <img class="img-fluid rounded mx-auto d-block my-3" src="{{ Storage::url($dataTabungan->gambar) }}" alt="">
                     <form-group>
                         <label for="gambar">Gambar</label>
                         <input type="file" id="gambar" class="form-control" name="gambar"  >

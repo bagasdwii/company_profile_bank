@@ -44,7 +44,7 @@
                         <td class="text-truncate" style="max-width: 50px;">{{ $tabungan->nomor_button }}</td>
 
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_tabungan/{{ $tabungan->gambar }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $tabungan->id }}">
+                            <img class="img-fluid rounded mx-auto d-block" src="{{ Storage::url($tabungan->gambar) }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $tabungan->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -92,7 +92,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="img-fluid" src="assets/data_tabungan/{{ $tabungan->gambar }}" alt="Gambar tabungan">
+                                    <img class="img-fluid" src="{{ Storage::url($tabungan->gambar) }}" alt="Gambar tabungan">
                                 </div>
                             </div>
                         </div>

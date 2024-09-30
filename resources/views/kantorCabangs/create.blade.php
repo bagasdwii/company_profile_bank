@@ -20,7 +20,7 @@
                         <input type="text" id="gmap" class="form-control" name="gmap" placeholder="Link Gmap" required>
                     </form-group><form-group>
                         <label for="telepon">Telepon</label>
-                        <input type="text" id="telepon" class="form-control" name="telepon" placeholder="Nomor Telepon" required>
+                        <input type="number" id="telepon" class="form-control" name="telepon" placeholder="Nomor Telepon" required>
                     </form-group>
                     <form-group>
                         <label for="gambar">Gambar</label>

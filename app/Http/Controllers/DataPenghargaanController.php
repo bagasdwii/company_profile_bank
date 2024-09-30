@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataPenghargaan;
 use Illuminate\Http\Request;
+use App\Models\DataPenghargaan;
+use Illuminate\Support\Facades\Storage;
 
 class DataPenghargaanController extends Controller
 {
@@ -52,11 +53,9 @@ class DataPenghargaanController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_penghargaan/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_penghargaan
+            $gambarPath = $gambar->store('data_penghargaan', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataPenghargaan::create($input);
@@ -103,17 +102,14 @@ class DataPenghargaanController extends Controller
 
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_penghargaan/';
             // Hapus gambar lama jika ada
-            $gambarLamaPath = public_path($lokasiFile . $dataPenghargaan->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            if ($dataPenghargaan->gambar) {
+                Storage::disk('public')->delete($dataPenghargaan->gambar);
             }
 
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar baru ke storage/app/public/data_penghargaan
+            $gambarPath = $gambar->store('data_penghargaan', 'public');
+            $input['gambar'] = $gambarPath;
         } else {
             unset($input['gambar']);
         }
@@ -131,15 +127,10 @@ class DataPenghargaanController extends Controller
      */
     public function destroy(DataPenghargaan $dataPenghargaan)
     {
-       // Lokasi file gambar
-       $gambarPath = public_path('assets/data_penghargaan/' . $dataPenghargaan->gambar);
-
-       // Cek apakah file gambar tersebut ada di folder
-       if (file_exists($gambarPath)) {
-           // Jika ada, hapus file gambar
-           unlink($gambarPath);
-       }
-
+       // Hapus file gambar dari disk storage jika ada
+       if ($dataPenghargaan->gambar) {
+        Storage::disk('public')->delete($dataPenghargaan->gambar);
+    }
        // Hapus data dari database
        $dataPenghargaan->delete();
 
