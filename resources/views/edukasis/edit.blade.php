@@ -21,7 +21,7 @@
                         <label for="tanggal">Tanggal</label>
                         <input type="date" id="tanggal" class="form-control" name="tanggal" value="{{ $dataEdukasi->tanggal}}">
                     </div>
-                    <img class="img-fluid rounded mx-auto d-block my-3" src="/assets/data_edukasi/{{ $dataEdukasi->gambar }}" alt="">
+                    <img class="img-fluid rounded mx-auto d-block my-3" src="{{ Storage::url($dataEdukasi->gambar) }}" alt="">
                     <form-group>
                         <label for="gambar">Gambar</label>
                         <input type="file" id="gambar" class="form-control" name="gambar"  >

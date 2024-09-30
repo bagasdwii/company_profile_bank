@@ -44,7 +44,7 @@
                         <td class="text-truncate" style="max-width: 50px;">{{ $kredit->nomor_button }}</td>
 
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_kredit/{{ $kredit->gambar }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $kredit->id }}">
+                            <img class="img-fluid rounded mx-auto d-block" src="{{ Storage::url($kredit->gambar) }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $kredit->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -92,7 +92,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="img-fluid" src="assets/data_kredit/{{ $kredit->gambar }}" alt="Gambar kredit">
+                                    <img class="img-fluid" src="{{ Storage::url($kredit->gambar) }}" alt="Gambar kredit">
                                 </div>
                             </div>
                         </div>

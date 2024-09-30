@@ -39,7 +39,7 @@
                         <td class="text-truncate" style="max-width: 150px;">{{ $slider->judul }}</td>
                         <td class="text-truncate" style="max-width: 300px;">{{ $slider->keterangan }}</td>
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_slider/{{ $slider->gambar }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $slider->id }}">
+                            <img class="img-fluid rounded mx-auto d-block" src="{{ Storage::url($slider->gambar) }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $slider->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -87,7 +87,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="img-fluid" src="assets/data_slider/{{ $slider->gambar }}" alt="Gambar slider">
+                                    <img class="img-fluid" src="{{ Storage::url($slider->gambar) }}" alt="Gambar slider">
                                 </div>
                             </div>
                         </div>

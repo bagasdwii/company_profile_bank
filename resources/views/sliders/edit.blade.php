@@ -16,7 +16,7 @@
                         <label for="keterangan">Keterangan</label>
                         <textarea type="text" id="keterangan" class="form-control" name="keterangan" placeholder="Keterangan"  >{{ $dataSlider->keterangan }}</textarea>
                     </form-group>
-                    <img class="img-fluid rounded mx-auto d-block my-3" src="/assets/data_slider/{{ $dataSlider->gambar }}" alt="">
+                    <img class="img-fluid rounded mx-auto d-block my-3" src="{{ Storage::url($dataSlider->gambar) }}" alt="">
                     <form-group>
                         <label for="gambar">Gambar</label>
                         <input type="file" id="gambar" class="form-control" name="gambar"  >

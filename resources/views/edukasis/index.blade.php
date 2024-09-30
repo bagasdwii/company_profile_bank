@@ -41,7 +41,7 @@
                         <td class="text-truncate" style="max-width: 300px;">{{ $edukasi->keterangan }}</td>
                         <td class="text-truncate" style="max-width: 100px;">{{ $edukasi->hari }}, {{ $edukasi->tanggal }}</td>
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_edukasi/{{ $edukasi->gambar }}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $edukasi->id }}">
+                            <img class="img-fluid rounded mx-auto d-block" src="{{ Storage::url($edukasi->gambar)}}" alt="" style="max-width: 90px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $edukasi->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -89,7 +89,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="img-fluid" src="assets/data_edukasi/{{ $edukasi->gambar }}" alt="Gambar edukasi">
+                                    <img class="img-fluid" src="{{ Storage::url($edukasi->gambar) }}" alt="Gambar edukasi">
                                 </div>
                             </div>
                         </div>

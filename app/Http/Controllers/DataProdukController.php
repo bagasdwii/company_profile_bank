@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataProduk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataProdukController extends Controller
 {
@@ -56,12 +57,11 @@ class DataProdukController extends Controller
         ]);
     
         $input = $request->all();
+         
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_produk/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_produk
+            $gambarPath = $gambar->store('data_produk', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataProduk::create($input);
@@ -109,17 +109,14 @@ class DataProdukController extends Controller
 
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_produk/';
             // Hapus gambar lama jika ada
-            $gambarLamaPath = public_path($lokasiFile . $dataProduk->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            if ($dataProduk->gambar) {
+                Storage::disk('public')->delete($dataProduk->gambar);
             }
 
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar baru ke storage/app/public/data_produk
+            $gambarPath = $gambar->store('data_produk', 'public');
+            $input['gambar'] = $gambarPath;
         } else {
             unset($input['gambar']);
         }
@@ -138,13 +135,9 @@ class DataProdukController extends Controller
      */
     public function destroy(DataProduk $dataProduk)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_produk/' . $dataProduk->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+        // Hapus file gambar dari disk storage jika ada
+        if ($dataProduk->gambar) {
+            Storage::disk('public')->delete($dataProduk->gambar);
         }
 
         // Hapus data dari database

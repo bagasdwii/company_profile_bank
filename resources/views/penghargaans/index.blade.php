@@ -37,7 +37,7 @@
                         <td class="text-center">{{ $i++ }}</td>
                         <td class="text-truncate" style="max-width: 150px;">{{ $penghargaan->judul }}</td>
                         <td>
-                            <img class="img-fluid rounded mx-auto d-block" src="assets/data_penghargaan/{{ $penghargaan->gambar }}" alt="" style="max-width: 300px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $penghargaan->id }}">
+                            <img class="img-fluid rounded mx-auto d-block" src="{{ Storage::url($penghargaan->gambar) }}" alt="" style="max-width: 300px;" data-bs-toggle="modal" data-bs-target="#modalGambar{{ $penghargaan->id }}">
                         </td>
                         <td>
                             <div class="d-flex">
@@ -85,7 +85,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img class="img-fluid" src="assets/data_penghargaan/{{ $penghargaan->gambar }}" alt="Gambar penghargaan">
+                                    <img class="img-fluid" src="{{ Storage::url($penghargaan->gambar) }}" alt="Gambar penghargaan">
                                 </div>
                             </div>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataSlider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataSliderController extends Controller
 {
@@ -55,11 +56,9 @@ class DataSliderController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_slider/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_slider
+            $gambarPath = $gambar->store('data_slider', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataSlider::create($input);
@@ -107,19 +106,17 @@ class DataSliderController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_slider/';
-            $gambarLamaPath = public_path($lokasiFile . $dataSlider->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataSlider->gambar) {
+                Storage::disk('public')->delete($dataSlider->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_slider
+            $gambarPath = $gambar->store('data_slider', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
-    
         $dataSlider->update($input);
     
         return redirect('/data_slider')->with('message', 'Data berhasil diedit');
@@ -133,13 +130,9 @@ class DataSliderController extends Controller
      */
     public function destroy(DataSlider $dataSlider)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_slider/' . $dataSlider->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+        // Hapus file gambar dari disk storage jika ada
+        if ($dataSlider->gambar) {
+            Storage::disk('public')->delete($dataSlider->gambar);
         }
 
         // Hapus data dari database

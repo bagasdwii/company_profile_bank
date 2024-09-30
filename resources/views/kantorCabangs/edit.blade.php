@@ -21,9 +21,9 @@
                         <input type="text" id="gmap" class="form-control" name="gmap" placeholder="Link Gmap"  value="{{ $dataKantorCabang->gmap }}">
                     </form-group><form-group>
                         <label for="telepon">Nomor Telepon</label>
-                        <input type="text" id="telepon" class="form-control" name="telepon" placeholder="Nomor Telepon"  value="{{ $dataKantorCabang->telepon }}">
+                        <input type="numer" id="telepon" class="form-control" name="telepon" placeholder="Nomor Telepon"  value="{{ $dataKantorCabang->telepon }}">
                     </form-group>
-                    <img class="img-fluid rounded mx-auto d-block my-3" src="/assets/data_kantor_cabang/{{ $dataKantorCabang->gambar }}" alt="">
+                    <img class="img-fluid rounded mx-auto d-block my-3" src="{{ Storage::url($dataKantorCabang->gambar) }}" alt="">
                     <form-group>
                         <label for="gambar">Gambar</label>
                         <input type="file" id="gambar" class="form-control" name="gambar"  >

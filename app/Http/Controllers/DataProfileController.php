@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DataProfileController extends Controller
 {
@@ -56,11 +57,9 @@ class DataProfileController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_profile/';
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
+            // Simpan gambar ke storage/app/public/data_profile
+            $gambarPath = $gambar->store('data_profile', 'public');
+            $input['gambar'] = $gambarPath;
         }
     
         DataProfile::create($input);
@@ -111,16 +110,15 @@ class DataProfileController extends Controller
     
         $input = $request->all();
         if ($gambar = $request->file('gambar')) {
-            $lokasiFile = 'assets/data_profile/';
-            $gambarLamaPath = public_path($lokasiFile . $dataProfile->gambar);
-            if (file_exists($gambarLamaPath)) {
-                unlink($gambarLamaPath);
+            // Hapus gambar lama jika ada
+            if ($dataProfile->gambar) {
+                Storage::disk('public')->delete($dataProfile->gambar);
             }
-            // Gunakan timestamp untuk nama file agar unik
-            $gambarNama = date('YmdHis') . "." . $gambar->getClientOriginalExtension();
-            $gambar->move($lokasiFile, $gambarNama);
-            $input['gambar'] = $gambarNama;
-        } else{
+
+            // Simpan gambar baru ke storage/app/public/data_profile
+            $gambarPath = $gambar->store('data_profile', 'public');
+            $input['gambar'] = $gambarPath;
+        } else {
             unset($input['gambar']);
         }
     
@@ -137,13 +135,9 @@ class DataProfileController extends Controller
      */
     public function destroy(DataProfile $dataProfile)
     {
-        // Lokasi file gambar
-        $gambarPath = public_path('assets/data_profile/' . $dataProfile->gambar);
-
-        // Cek apakah file gambar tersebut ada di folder
-        if (file_exists($gambarPath)) {
-            // Jika ada, hapus file gambar
-            unlink($gambarPath);
+         // Hapus file gambar dari disk storage jika ada
+         if ($dataProfile->gambar) {
+            Storage::disk('public')->delete($dataProfile->gambar);
         }
 
         // Hapus data dari database
