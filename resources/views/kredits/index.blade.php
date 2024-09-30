@@ -13,7 +13,7 @@
         <!-- Form Pencarian -->
         <form method="GET" action="{{ url('/data_kredit') }}" class="mb-3">
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Cari kredit..." value="{{ $search }}">
+                <input type="text" name="search" class="form-control" placeholder="Cari Kredit..." value="{{ $search }}">
                 <button type="submit" class="btn btn-secondary">Cari</button>
             </div>
         </form>
