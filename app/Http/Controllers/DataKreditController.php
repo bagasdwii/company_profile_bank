@@ -76,7 +76,8 @@ class DataKreditController extends Controller
      */
     public function show(DataKredit $dataKredit)
     {
-        //
+        return view('kredits.show', compact('dataKredit'));
+        
     }
 
     /**

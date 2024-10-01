@@ -75,7 +75,8 @@ class DataKantorCabangController extends Controller
      */
     public function show(DataKantorCabang $dataKantorCabang)
     {
-        //
+        return view('kantorCabangs.show', compact('dataKantorCabang'));
+        
     }
 
     /**

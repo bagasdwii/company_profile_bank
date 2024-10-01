@@ -74,7 +74,8 @@ class DataSliderController extends Controller
      */
     public function show(DataSlider $dataSlider)
     {
-        //
+        return view('sliders.show', compact('dataSlider'));
+        
     }
 
     /**

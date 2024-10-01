@@ -24,10 +24,10 @@
                     <tr>
                         <th style="width: 5%;">No</th>
                         <th style="width: 25%;">Judul</th>
-                        <th style="width: 25%;">Keterangan</th>
-                        <th style="width: 20;">Tanggal</th>
+                        <th style="width: 20%;">Keterangan</th>
+                        <th style="width: 20%;">Tanggal</th>
                         <th style="width: 15%;">Gambar</th>
-                        <th style="width: 10%;">Aksi</th>
+                        <th style="width: 15%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +45,12 @@
                         </td>
                         <td>
                             <div class="d-flex">
+                                <!-- Tombol Detail -->
+                                <a href="{{ route('data_berita.show', $berita->id) }}" class="btn btn-info btn-sm me-2">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+
+                                <!-- Tombol Edit -->
                                 <a href="{{ route('data_berita.edit', $berita->id) }}" class="btn btn-warning btn-sm me-2">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -103,4 +109,3 @@
         </div>
     </div>
 @endsection
-

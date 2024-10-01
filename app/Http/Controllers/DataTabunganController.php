@@ -76,7 +76,8 @@ class DataTabunganController extends Controller
      */
     public function show(DataTabungan $dataTabungan)
     {
-        //
+        return view('tabungans.show', compact('dataTabungan'));
+        
     }
 
     /**

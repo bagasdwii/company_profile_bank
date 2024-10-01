@@ -75,7 +75,8 @@ class DataDepositoController extends Controller
      */
     public function show(DataDeposito $dataDeposito)
     {
-        //
+        return view('depositos.show', compact('dataDeposito'));
+        
     }
 
     /**
