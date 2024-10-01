@@ -80,7 +80,7 @@ class DataBeritaController extends Controller
      */
     public function show(DataBerita $dataBerita)
     {
-        //
+        return view('beritas.show', compact('dataBerita'));
     }
 
     /**

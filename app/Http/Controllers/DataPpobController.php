@@ -75,7 +75,8 @@ class DataPpobController extends Controller
      */
     public function show(DataPpob $dataPpob)
     {
-        //
+        return view('ppobs.show', compact('dataPpob'));
+        
     }
 
     /**

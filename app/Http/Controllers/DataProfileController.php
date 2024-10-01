@@ -75,7 +75,8 @@ class DataProfileController extends Controller
      */
     public function show(DataProfile $dataProfile)
     {
-        //
+        return view('profiles.show', compact('dataProfile'));
+        
     }
 
     /**

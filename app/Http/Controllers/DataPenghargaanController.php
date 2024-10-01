@@ -71,7 +71,8 @@ class DataPenghargaanController extends Controller
      */
     public function show(DataPenghargaan $dataPenghargaan)
     {
-        //
+        return view('penghargaans.show', compact('dataPenghargaan'));
+        
     }
 
     /**

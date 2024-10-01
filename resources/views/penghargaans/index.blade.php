@@ -24,8 +24,8 @@
                     <tr>
                         <th style="width: 5%;">No</th>
                         <th style="width: 25%;">Judul</th>
-                        <th style="width: 60%;">Gambar</th>
-                        <th style="width: 10%;">Aksi</th>
+                        <th style="width: 55%;">Gambar</th>
+                        <th style="width: 15%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +41,9 @@
                         </td>
                         <td>
                             <div class="d-flex">
+                                <a href="{{ route('data_penghargaan.show', $penghargaan->id) }}" class="btn btn-info btn-sm me-2">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                 <a href="{{ route('data_penghargaan.edit', $penghargaan->id) }}" class="btn btn-warning btn-sm me-2">
                                     <i class="fas fa-edit"></i>
                                 </a>

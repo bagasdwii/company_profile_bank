@@ -53,6 +53,10 @@ Route::resource('/data_kredit',DataKreditController::class)->middleware('auth');
 Route::resource('/data_ppob',DataPpobController::class)->middleware('auth');
 Route::resource('/data_edukasi',DataEdukasiController::class)->middleware('auth');
 Route::resource('/data_kantor_cabang',DataKantorCabangController::class)->middleware('auth');
+Route::prefix('data_kantor_kas/{idkantorcabang}')->group(function () {
+    Route::resource('/', DataKantorKasController::class)->middleware('auth');
+});
+
 
 
 

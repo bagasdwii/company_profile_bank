@@ -24,11 +24,11 @@
                     <tr>
                         <th style="width: 5%;">No</th>
                         <th style="width: 25%;">Judul</th>
-                        <th style="width: 35%;">Keterangan</th>
+                        <th style="width: 30%;">Keterangan</th>
                         <th style="width: 5%;">Button</th>
                         <th style="width: 5%;">ID</th>
                         <th style="width: 15%;">Gambar</th>
-                        <th style="width: 10%;">Aksi</th>
+                        <th style="width: 15%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +48,9 @@
                         </td>
                         <td>
                             <div class="d-flex">
+                                <a href="{{ route('data_kredit.show', $kredit->id) }}" class="btn btn-info btn-sm me-2">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                 <a href="{{ route('data_kredit.edit', $kredit->id) }}" class="btn btn-warning btn-sm me-2">
                                     <i class="fas fa-edit"></i>
                                 </a>

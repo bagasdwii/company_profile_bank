@@ -77,7 +77,8 @@ class DataProdukController extends Controller
      */
     public function show(DataProduk $dataProduk)
     {
-        //
+        return view('produks.show', compact('dataProduk'));
+        
     }
 
     /**

@@ -80,7 +80,8 @@ class DataEdukasiController extends Controller
      */
     public function show(DataEdukasi $dataEdukasi)
     {
-        //
+        return view('edukasis.show', compact('dataEdukasi'));
+        
     }
 
     /**
