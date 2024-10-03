@@ -99,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                         </li>
                         <li class="nav-item menu-open">
-                                <a href="#" class="nav-link {{ Request::is('data_kantor_cabang','data_edukasi','data_ppob','data_kredit','data_deposito','data_profile','data_slider', 'data_produk', 'data_berita', 'data_penghargaan', 'data_tabungan') ? 'active' : '' }}">
+                                <a href="#" class="nav-link {{ Request::is('data_karir','data_kantor_cabang','data_edukasi','data_ppob','data_kredit','data_deposito','data_profile','data_slider', 'data_produk', 'data_berita', 'data_penghargaan', 'data_tabungan') ? 'active' : '' }}">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
                                         Master Data
@@ -171,6 +171,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         <a href="/data_kantor_cabang" class="nav-link {{ Request::is('data_kantor_cabang') ? 'active' : '' }}">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Data Kantor Cabang</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/data_karir" class="nav-link {{ Request::is('data_karir') ? 'active' : '' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Data Karir</p>
                                         </a>
                                     </li>
 

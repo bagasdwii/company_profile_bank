@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DataPpobController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataKarirController;
 use App\Http\Controllers\DataBeritaController;
 use App\Http\Controllers\DataKreditController;
 use App\Http\Controllers\DataProdukController;
@@ -57,6 +58,7 @@ Route::resource('/data_kantor_cabang',DataKantorCabangController::class)->middle
 Route::prefix('data_kantor_cabang/{idkantorcabang}')->group(function () {
     Route::resource('data_kantor_kas', DataKantorKasController::class)->middleware('auth');
 });
+Route::resource('/data_karir',DataKarirController::class)->middleware('auth');
 
 
 
