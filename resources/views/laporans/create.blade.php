@@ -1,26 +1,17 @@
 @extends('layouts.appv2')
-@section('title', 'Data Karir')
+@section('title', 'Data Laporan')
 @section('content')
     <div class="container">
-        <a href="/data_karir" class="mb-3 btn btn-primary">Kembali</a>
+        <a href="/data_laporan" class="mb-3 btn btn-primary">Kembali</a>
         <div class="row">
             <div class="col-md-12">
-                <form action="{{ route('data_karir.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('data_laporan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-
-                    <!-- Hidden field untuk user_id -->
-                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
                     <!-- Form group untuk Judul -->
                     <div class="form-group">
                         <label for="judul">Judul</label>
                         <input type="text" id="judul" class="form-control" name="judul" placeholder="Judul" required>
-                    </div>
-
-                    <!-- Form group untuk Keterangan -->
-                    <div class="form-group">
-                        <label for="keterangan">Keterangan</label>
-                        <textarea id="keterangan" class="form-control" name="keterangan" placeholder="Keterangan" required></textarea>
                     </div>
 
                     <!-- Form group untuk Tanggal -->
@@ -29,10 +20,10 @@
                         <input type="date" id="tanggal" class="form-control" name="tanggal" required>
                     </div>
 
-                    <!-- Form group untuk Gambar -->
+                    <!-- Form group untuk File PDF -->
                     <div class="form-group">
-                        <label for="gambar">Gambar</label>
-                        <input type="file" id="gambar" class="form-control" name="gambar" required>
+                        <label for="file_pdf">File PDF</label>
+                        <input type="file" id="file_pdf" class="form-control" name="file_pdf" required>
                     </div>
 
                     <!-- Submit Button -->

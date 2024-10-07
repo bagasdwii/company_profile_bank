@@ -11,6 +11,7 @@ use App\Http\Controllers\DataKreditController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
 use App\Http\Controllers\DataEdukasiController;
+use App\Http\Controllers\DataLaporanController;
 use App\Http\Controllers\DataProfileController;
 use App\Http\Controllers\DataDepositoController;
 use App\Http\Controllers\DataTabunganController;
@@ -59,6 +60,8 @@ Route::prefix('data_kantor_cabang/{idkantorcabang}')->group(function () {
     Route::resource('data_kantor_kas', DataKantorKasController::class)->middleware('auth');
 });
 Route::resource('/data_karir',DataKarirController::class)->middleware('auth');
+Route::resource('/data_laporan',DataLaporanController::class)->middleware('auth');
+
 
 
 
