@@ -7,6 +7,7 @@ use App\Http\Controllers\DataPpobController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataKarirController;
 use App\Http\Controllers\DataBeritaController;
+use App\Http\Controllers\DataKontakController;
 use App\Http\Controllers\DataKreditController;
 use App\Http\Controllers\DataProdukController;
 use App\Http\Controllers\DataSliderController;
@@ -61,6 +62,7 @@ Route::prefix('data_kantor_cabang/{idkantorcabang}')->group(function () {
 });
 Route::resource('/data_karir',DataKarirController::class)->middleware('auth');
 Route::resource('/data_laporan',DataLaporanController::class)->middleware('auth');
+Route::resource('/data_kontak',DataKontakController::class)->middleware('auth');
 
 
 
